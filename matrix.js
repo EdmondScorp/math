@@ -15,7 +15,7 @@ const Matrix = (() => {
         return true;
     };
 
-    const fix = number => +number.toFixed(10);
+    const _fix = number => +number.toFixed(10);
 
     const _diagonal = matrix => {
         let det = 1;
