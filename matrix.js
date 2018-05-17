@@ -84,7 +84,7 @@ const Matrix = (() => {
             matrix = _gaussElimination(matrix, i);
         }
         let result = _diagonal(matrix) * Math.pow(-1, counter.swapped) + 0;
-        return fix(result);
+        return _fix(result);
     };
     
     return {
