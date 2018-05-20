@@ -66,7 +66,10 @@ const Matrix = (() => {
         const row = matrix[index];
         const length = matrix.length;
         for (let i = index + 1; i < length; i++) {
-            if (row[index] === 0) continue;
+            if (row[index] === 0) {
+                matrix[i][index] = 0;
+                continue;
+            }
             let k = -(matrix[i][index] / row[index]);
             for (let j = index + 1; j < length; j++) {
                 matrix[i][j] += k * row[j];
