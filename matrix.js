@@ -85,5 +85,4 @@ const Matrix = (() => {
 
 })();
 
-
 module.exports = Matrix;
