@@ -14,55 +14,42 @@ const Matrix = (() => {
         if (!_isSquare(matrix)) throw new Error('Must be a square matrix');
         return true;
     };
-
     const _isAllZero = matrix => 
         matrix.every(row => !row[0]);
 
     const _fix = number => +number.toFixed(10);
 
+    const _diagonal = matrix => 
+        matrix.reduce((a, r, i) => a * r[i], 1);
+
+    const _swapRows = (matrix, i, j) => {
+        console.log(`Swapping the ${i+1} and ${j+1} rows`);
+        return ([matrix[i], matrix[j]] = [matrix[j], matrix[i]], matrix);
+    };
+
     const _argmax = (matrix, h,  k) => {
         const length = matrix.length;
         let max = Math.abs(matrix[h][k]);
         let index = h;
-        for (let i = h + 1; i < length; i++) {
-            if (Math.abs(matrix[i][k]) > max) {
-                max = Math.abs(matrix[i][k]);
-                index = i;
-            }
-        }
+        for (let i = h + 1; i < length; i++) 
+            if (Math.abs(matrix[i][k]) > max) 
+                (max = Math.abs(matrix[i][k]), index = i);
         return index;
     }
-
-    const _diagonal = matrix => {
-        let det = 1;
-        for (let i = 0; i < matrix.length; i++) {
-            det *= matrix[i][i];
-        }
-        return det; 
-    };
-
-    const _swapRows = (matrix, i, j) => {
-        console.log(`Swapping the ${i+1} and ${j+1} rows`);
-        [matrix[i], matrix[j]] = [matrix[j], matrix[i]];
-        return matrix;
-    };
 
     const _gaussElimination = (matrix, counter) => {
         const length = matrix.length;
         for (let h = 0, k = 0; h < length && k < length; k++) {
             let i_max = _argmax(matrix, h, k);
-            if (matrix[i_max][k] === 0) continue;
+            if (!matrix[i_max][k]) continue;
             else {
-                if (i_max !== h) {
-                    matrix = _swapRows(matrix, h, i_max);
-                    counter.swapped++;
-                }
+                if (i_max !== h) 
+                    (matrix = _swapRows(matrix, h, i_max), counter.swapped++);
                 for (let i = h + 1; i < length; i++) {
                     let f = matrix[i][k] / matrix[h][k];
                     matrix[i][k] = 0;
-                    for (let j = k + 1; j < length; j++) {
+                    for (let j = k + 1; j < length; j++) 
                         matrix[i][j] -= matrix[h][j] * f;
-                    }
                 }
                 h++;
             }
@@ -73,9 +60,9 @@ const Matrix = (() => {
     const countDeterminant = matrix => {
         if (!_isValidMatrix(matrix)) return null;
         if (_isAllZero(matrix)) return 0;
-        const counter = { swapped: 0};
+        const counter = { swapped: 0 };
         matrix = _gaussElimination(matrix, counter);
-        let result = _diagonal(matrix) * Math.pow(-1, counter.swapped) + 0;
+        const result = _diagonal(matrix) * Math.pow(-1, counter.swapped) + 0;
         return _fix(result);
     };
     
