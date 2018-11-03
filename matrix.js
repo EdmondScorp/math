@@ -1,7 +1,7 @@
 const Matrix = (() => {
+    "use strict";
     
-    const _isArray = matrix => 
-        Array.isArray(matrix);
+    const _isArray = matrix => Array.isArray(matrix);
         
     const _isMatrix = matrix => 
         _isArray(matrix) && matrix.every(array => _isArray(array));
@@ -15,8 +15,7 @@ const Matrix = (() => {
         return true;
     }
 
-    const _isAllZero = matrix => 
-        matrix.every(row => !row[0]);
+    const _isAllZero = matrix => matrix.every(row => !row[0]);
 
     const _fix = number => +number.toFixed(10);
 
@@ -59,7 +58,7 @@ const Matrix = (() => {
         if (_isAllZero(matrix)) return 0;
         const counter = { swapped: 0 };
         _gaussElimination(matrix, counter);
-        const result = _diagonal(matrix) * Math.pow(-1, counter.swapped) + 0;
+        const result = _diagonal(matrix) * (-1)**counter.swapped + 0;
         return _fix(result);
     }
     
