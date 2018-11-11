@@ -67,3 +67,5 @@ const Matrix = (() => {
     };
 
 })();
+
+export default Matrix;
